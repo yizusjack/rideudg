@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class CarController extends Controller
 {
@@ -20,7 +22,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        //
+        return view('cars.insertCar');
     }
 
     /**
@@ -28,7 +30,20 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'marca_c' => ['required', 'max: 255'],
+            'model_c' => ['required', 'max: 255'],
+            'color_c' => ['required', 'max: 255'],
+            'placas_c' => ['required', 'min: 6', 'max: 7'],
+        ]);
+
+        $placa = $request->placas_c;
+        $request['users_id'] = Auth::user()->id;
+        $request['placas_c'] = Crypt::encryptString($placa);
+
+        Car::create($request->all());
+
+        return redirect('dashboard');
     }
 
     /**

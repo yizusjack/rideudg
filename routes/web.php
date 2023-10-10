@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\PlaceController;
 
 /*
@@ -27,6 +28,9 @@ Route::get('prueba', function () {
 });
 
 Route::resource('place', PlaceController::class)
+->middleware('auth');
+
+Route::resource('car', CarController::class)
 ->middleware('auth');
 
 Route::middleware([
