@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Place;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class PlaceController extends Controller
 {
@@ -37,7 +38,7 @@ class PlaceController extends Controller
         ]);
 
         Place::create($request->all());
-        return redirect('dashboard');
+        return redirect('place');
     }
 
     /**
@@ -53,7 +54,7 @@ class PlaceController extends Controller
      */
     public function edit(Place $place)
     {
-        //
+        return view('places.editPlace', compact('place'));
     }
 
     /**
@@ -61,7 +62,17 @@ class PlaceController extends Controller
      */
     public function update(Request $request, Place $place)
     {
-        //
+        $request->validate([
+            'name_p' => ['required', 'max:255'],
+            'address_p' => ['required', 'max:255'],
+            'latitude_p' => ['required', 'min:-90', 'max:90', 'decimal:0,6'],
+            'longitude_p' => ['required', 'min:-180', 'max:180', 'decimal:0,6'],
+        ]);
+
+        Place::where('id', $place->id)
+        ->update($request->except('_token', '_method'));
+
+        return redirect('place');
     }
 
     /**
@@ -69,6 +80,7 @@ class PlaceController extends Controller
      */
     public function destroy(Place $place)
     {
-        //
+        $place->delete();
+        return redirect('place');
     }
 }

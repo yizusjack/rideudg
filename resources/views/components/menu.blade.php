@@ -261,9 +261,9 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
+        <a class="nav-link " href="{{route('place.index')}}">
+          <i class="bx bxs-map"></i>
+          <span>Lugares</span>
         </a>
       </li><!-- End Dashboard Nav -->
 
