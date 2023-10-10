@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Color;
+use App\Models\Marca;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Car extends Model
 {
@@ -12,10 +15,22 @@ class Car extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'marca_c',
+        'marcas_id',
         'model_c',
-        'color_c',
+        'colors_id',
         'placas_c',
         'users_id',
     ];
+
+    public function marcas(){
+        return $this->belongsTo(Marca::class);
+    }
+
+    public function colors(){
+        return $this->belongsTo(Color::class);
+    }
+
+    public function users(){
+        return $this->belongsTo(User::class);
+    }
 }

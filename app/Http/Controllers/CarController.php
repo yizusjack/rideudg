@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\Color;
+use App\Models\Marca;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -14,7 +16,9 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        $cars = Car::with(['users', 'marcas', 'colors'])->get();
+
+        return view('cars.carIndex', compact('cars'));
     }
 
     /**
@@ -22,18 +26,21 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view('cars.insertCar');
+        $marcas = Marca::all();
+        $colors = Color::all();
+        
+        return view('cars.insertCar', compact('marcas', 'colors'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
         $request->validate([
-            'marca_c' => ['required', 'max: 255'],
+            'marcas_id' => ['required', 'exists:marcas,id'],
             'model_c' => ['required', 'max: 255'],
-            'color_c' => ['required', 'max: 255'],
+            'colors_id' => ['required', 'exists:colors,id'],
             'placas_c' => ['required', 'min: 6', 'max: 7'],
         ]);
 

@@ -17,10 +17,16 @@
             @csrf
 
             <div class="row mb-3">
-              <label for="marca_c" class="col-sm-2 col-form-label">Marca</label>
+              <label for="marcas_id" class="col-sm-2 col-form-label">Marca</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="marca_c" name="marca_c" value="{{old('marca_c')}}">
-                @error('marca_c')
+                <select class="form-control" id="marcas_id" name="marcas_id">
+                    @foreach ($marcas as $marca)
+                        <option value="{{$marca->id}}" @if(old('marcas_id') == $marca->id)
+                            selected 
+                           @endif>{{$marca->name_m}}</option>
+                    @endforeach
+                </select>
+                @error('marcas_id')
                     <p>{{$message}}</p>
                 @enderror
               </div>
@@ -37,10 +43,16 @@
             </div>
 
             <div class="row mb-3">
-                <label for="color_c" class="col-sm-2 col-form-label">Color</label>
+                <label for="colors_id" class="col-sm-2 col-form-label">Color</label>
                 <div class="col-sm-10">
-                  <input type="text" class="form-control" id="color_c" name="color_c" value="{{old("color_c")}}">
-                  @error("color_c")
+                  <select class="form-control" id="colors_id" name="colors_id">
+                      @foreach ($colors as $color)
+                          <option value="{{$color->id}}" @if(old('colors_id') == $color->id)
+                            selected 
+                           @endif>{{$color->name_co}}</option>
+                      @endforeach
+                  </select>
+                  @error("colors_id")
                     <p>{{$message}}</p>
                   @enderror
                 </div>
