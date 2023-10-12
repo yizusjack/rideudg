@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('colors_id')->constrained()->onDelete('cascade');
             $table->text('placas_c');
             $table->foreignId('users_id')->constrained()->onDelete('cascade');
+            $table->boolean('picset_c')->default(false);
         });
     }
 

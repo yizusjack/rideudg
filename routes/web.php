@@ -30,8 +30,19 @@ Route::get('prueba', function () {
 Route::resource('place', PlaceController::class)
 ->middleware('auth');
 
+//CARS
 Route::resource('car', CarController::class)
 ->middleware('auth');
+
+Route::get('car/{car}/createP',
+    [CarController::class, 'createP'])
+    ->name('car.createp')
+    ->middleware('auth');
+
+Route::post('car/{car}/storeP',
+    [CarController::class, 'storeP'])
+    ->name('car.storep')
+    ->middleware('auth');
 
 Route::middleware([
     'auth:sanctum',
