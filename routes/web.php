@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\RideController;
 use App\Http\Controllers\PlaceController;
 
 /*
@@ -43,6 +44,10 @@ Route::post('car/{car}/storeP',
     [CarController::class, 'storeP'])
     ->name('car.storep')
     ->middleware('auth');
+
+//RIDES
+Route::resource('ride', RideController::class)
+->middleware('auth');
 
 Route::middleware([
     'auth:sanctum',

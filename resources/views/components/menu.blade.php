@@ -10,7 +10,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{{asset('assets/img/favicon.png')}}" rel="icon">
+  <link href="{{asset('assets/img/logo.png')}}" rel="icon">
   <link href="{{asset('assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -51,7 +51,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="{{route('ride.index')}}" class="logo d-flex align-items-center">
         <img src="{{asset('assets/img/logo.png')}}" alt="">
         <span class="d-none d-lg-block">RideUdG</span>
       </a>
@@ -261,6 +261,13 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
+        <a class="nav-link collapsed" href="{{route('ride.index')}}">
+          <i class="bx bxs-map-alt"></i>
+          <span>Viajes</span>
+        </a>
+      </li>
+      
+      <li class="nav-item">
         <a class="nav-link collapsed" href="{{route('place.index')}}">
           <i class="bx bxs-map"></i>
           <span>Lugares</span>
@@ -274,7 +281,7 @@
         </a>
       </li>
 
-      <li class="nav-item">
+      {{--<li class="nav-item">
         <a class="nav-link collapsed" href="pages-register.html">
           <i class="bi bi-card-list"></i>
           <span>Register</span>
@@ -501,7 +508,7 @@
           <i class="bi bi-file-earmark"></i>
           <span>Blank</span>
         </a>
-      </li><!-- End Blank Page Nav -->
+      </li><!-- End Blank Page Nav --> --}}
 
     </ul>
 

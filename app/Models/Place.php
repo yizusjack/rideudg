@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Ride;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Place extends Model
 {
@@ -17,4 +18,8 @@ class Place extends Model
         'latitude_p',
         'longitude_p',
     ];
+
+    public function rides(){
+        return $this->hasMany(Ride::class);
+    }
 }
