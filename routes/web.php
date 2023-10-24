@@ -49,6 +49,11 @@ Route::post('car/{car}/storeP',
 Route::resource('ride', RideController::class)
 ->middleware('auth');
 
+Route::get('ride/{user}/myRides',
+    [RideController::class, 'myRides'])
+    ->name('ride.myRides')
+    ->middleware('auth');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Models\Ride;
+use App\Models\User;
 use App\Models\Place;
 use App\Models\Picture;
 use Illuminate\Http\Request;
@@ -73,7 +74,9 @@ class RideController extends Controller
      */
     public function edit(Ride $ride)
     {
-        //
+        $places = Place::all();
+        $cars = Car::where('users_id', Auth::user()->id)->get();
+        return view('rides.editRide', compact('places', 'cars', 'ride'));
     }
 
     /**
@@ -81,7 +84,19 @@ class RideController extends Controller
      */
     public function update(Request $request, Ride $ride)
     {
-        //
+        $request->validate([
+            'date_t' => ['required', 'date',],
+            'hour_t' => ['required', 'date_format:H:i',],
+            'passengers_t' => ['required', 'numeric', 'min:1',],
+            'places_id' => ['required', 'exists:places,id',],
+            'destiny_id' => ['required', 'exists:places,id',],
+            'cars_id' => ['required', 'exists:cars,id'],
+        ]);
+
+        Ride::where('id', $ride->id)
+        ->update($request->except('_token', '_method'));
+
+        return redirect()->route('ride.myRides', Auth::user()->id);
     }
 
     /**
@@ -89,6 +104,16 @@ class RideController extends Controller
      */
     public function destroy(Ride $ride)
     {
-        //
+        $ride->delete();
+        return redirect()->route('ride.myRides', Auth::user()->id);
+    }
+
+    public function myRides(User $user){
+        $cars = Car::select('id')->where('users_id', $user->id);
+        $rides = Ride::with(['placesB', 'placesF', 'cars'])
+        ->whereIn('cars_id', $cars) //If The car is within the cars array made in the previous instruction
+        ->whereDate('date_t', '>=', Carbon::today()->toDateString())
+        ->get(); 
+        return view('rides.myRides', compact('rides'));
     }
 }
