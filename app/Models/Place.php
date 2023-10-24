@@ -22,4 +22,8 @@ class Place extends Model
     public function rides(){
         return $this->hasMany(Ride::class);
     }
+
+    public function stops(){
+        return $this->belongsToMany(Ride::class);
+    }
 }

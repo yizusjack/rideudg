@@ -54,6 +54,16 @@ Route::get('ride/{user}/myRides',
     ->name('ride.myRides')
     ->middleware('auth');
 
+Route::get('ride/{ride}/seeStops',
+    [RideController::class, 'seeStops'])
+    ->name('ride.seeStops')
+    ->middleware('auth');
+
+Route::post('ride/{ride}/manageStops',
+    [RideController::class, 'manageStops'])
+    ->name('ride.manageStops')
+    ->middleware('auth');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

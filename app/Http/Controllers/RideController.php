@@ -116,4 +116,15 @@ class RideController extends Controller
         ->get(); 
         return view('rides.myRides', compact('rides'));
     }
+
+    public function seeStops(Ride $ride){
+        $places = Place::all();
+        return view('rides.addStops', compact('ride', 'places'));
+    }
+
+    public function manageStops(Request $request, Ride $ride){
+        //dd($request);
+        $ride->stops()->sync($request->place_id);
+        return redirect()->route('ride.show', $ride);
+    }
 }

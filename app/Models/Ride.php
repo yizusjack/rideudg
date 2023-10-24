@@ -33,5 +33,9 @@ class Ride extends Model
     public function cars(){
         return $this->belongsTo(Car::class);
     }
+
+    public function stops(){
+        return $this->belongsToMany(Place::class);
+    }
 }
 
