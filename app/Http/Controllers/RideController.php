@@ -52,7 +52,7 @@ class RideController extends Controller
 
         if($car->users_id == Auth::user()->id){
             Ride::create($request->all());
-            return redirect()->route('dashboard');
+            return redirect()->route('ride.index');
         }
     }
 

@@ -1,10 +1,10 @@
 <x-menu>
     <x-slot:title>
-        Agregar vehículo
+        Agregar viaje
     </x-slot>
  
     <div class="pagetitle">
-        <h1>Agregar vehículo</h1>
+        <h1>Agregar viaje</h1>
     </div>
     
     <section class="section">

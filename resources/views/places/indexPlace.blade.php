@@ -10,7 +10,7 @@
     <section class="section">
     <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Yadayadayada</h5>
+          <h5 class="card-title"></h5>
           <table class="table table-hover table-striped table-responsive">
             <thead>
                 <tr>
