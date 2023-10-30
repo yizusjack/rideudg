@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Car;
+use App\Models\Ride;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
@@ -32,6 +33,10 @@ class User extends Authenticatable
 
     public function cars(){
         return $this->hasMany(Car::class);
+    }
+
+    public function rides(){
+        return $this->belongsToMany(Ride::class);
     }
 
     /**

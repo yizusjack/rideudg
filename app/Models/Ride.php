@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Car;
+use App\Models\User;
 use App\Models\Place;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -36,6 +37,10 @@ class Ride extends Model
 
     public function stops(){
         return $this->belongsToMany(Place::class);
+    }
+
+    public function users(){
+        return $this->belongsToMany(User::class);
     }
 }
 

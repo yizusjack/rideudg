@@ -127,4 +127,11 @@ class RideController extends Controller
         $ride->stops()->sync($request->place_id);
         return redirect()->route('ride.show', $ride);
     }
+
+    public function requestStop(Request $request, Ride $ride){
+        //dd($request);
+        $ride->users()->attach(Auth::user()->id, ['places_id'=>$request->places_id, 'approved_u'=>false]);
+        //$ride->stops()->sync($request->place_id);
+        return redirect()->route('ride.show', $ride);
+    }
 }
