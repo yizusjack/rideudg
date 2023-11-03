@@ -62,6 +62,7 @@ class RideController extends Controller
      */
     public function show(Ride $ride)
     {
+        //dd($ride->users); 
         $pic = Picture::where('cars_id', $ride->cars_id)
         ->where('type_p', 4)
         ->first();

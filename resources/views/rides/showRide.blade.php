@@ -9,7 +9,7 @@
     
     <section class="section">
         <div class="row">
-            <div class = "col-4">
+            <div class = "col-sm-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title text-center">Detalles</h5>
@@ -26,41 +26,63 @@
                 </div>
             </div>
 
-            <div class = "col-8">
+            <div class = "col-sm-8">
                 <div class="card"> 
                     <div class="card-body">
-                        <h5 class="card-title"></h5>
+                        <h5 class="card-title">Paradas</h5>
                         <div class="row">
-                            <div class = "col-6">
+                            <div class = "col-md-6">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title text-center">Origen: </h5>
                                         <h5 class="text-center">{{$ride->placesB->name_p}}</h5>
                                         <div class="row text-center">
                                             <div class="col-12">
-                                                <form action="{{route('ride.requestStop', $ride)}}" method="POST">
-                                                    @csrf
-                                                    <input  name="places_id" id="places_id" type="hidden" value="{{$ride->placesB->id}}">
-                                                    <button type="submit" class="btn btn-success">+</button>
-                                                </form>
+                                                @if (Auth::user()->id == $ride->cars->users_id)
+                                                    @foreach ($ride->users as $rideU)
+                                                        @if ($rideU->pivot->places_id == $ride->places_id)
+                                                            <p>{{$rideU->name}}
+                                                                <button class="btn btn-sm btn-success">✔</button>
+                                                                <button class="btn btn-sm btn-danger">✘</button>
+                                                            </p>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    <form action="{{route('ride.requestStop', $ride)}}" method="POST">
+                                                        @csrf
+                                                        <input  name="places_id" id="places_id" type="hidden" value="{{$ride->placesB->id}}">
+                                                        <button type="submit" class="btn btn-success">+</button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
         
-                            <div class = "col-6">
+                            <div class = "col-md-6">
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title text-center">Destino: </h5>
                                         <h5 class="text-center">{{$ride->placesF->name_p}}</h5>
                                         <div class="row text-center">
                                             <div class="col-12">
-                                                <form action="{{route('ride.requestStop', $ride)}}" method="POST">
-                                                    @csrf
-                                                    <input  name="places_id" id="places_id" type="hidden" value="{{$ride->placesF->id}}">
-                                                    <button type="submit" class="btn btn-success">+</button>
-                                                </form>
+                                                @if (Auth::user()->id == $ride->cars->users_id)
+                                                    @foreach ($ride->users as $rideU)
+                                                        @if ($rideU->pivot->places_id == $ride->destiny_id)
+                                                            <p>{{$rideU->name}}
+                                                                <button class="btn btn-sm btn-success">✔</button>
+                                                                <button class="btn btn-sm btn-danger">✘</button>
+                                                            </p>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                    <form action="{{route('ride.requestStop', $ride)}}" method="POST">
+                                                        @csrf
+                                                        <input  name="places_id" id="places_id" type="hidden" value="{{$ride->placesF->id}}">
+                                                        <button type="submit" class="btn btn-success">+</button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -70,18 +92,29 @@
         
                         <div class="row">
                             @foreach ($ride->stops as $stop)
-                                <div class = "col-4">
+                                <div class = "col-md-6 col-lg-4">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title text-center"></h5>
                                             <h5 class="text-center">{{$stop->name_p}}</h5>
                                             <div class="row text-center">
                                                 <div class="col-12">
-                                                    <form action="{{route('ride.requestStop', $ride)}}" method="POST">
-                                                        @csrf
-                                                        <input  name="places_id" id="places_id" type="hidden" value="{{$stop->id}}">
-                                                        <button type="submit" class="btn btn-success">+</button>
-                                                    </form>
+                                                    @if (Auth::user()->id == $ride->cars->users_id)
+                                                        @foreach ($ride->users as $rideU)
+                                                            @if ($rideU->pivot->places_id == $stop->id)
+                                                                <p>{{$rideU->name}}
+                                                                    <button class="btn btn-sm btn-success">✔</button>
+                                                                    <button class="btn btn-sm btn-danger">✘</button>
+                                                                </p>
+                                                            @endif
+                                                        @endforeach
+                                                    @else
+                                                        <form action="{{route('ride.requestStop', $ride)}}" method="POST">
+                                                            @csrf
+                                                            <input  name="places_id" id="places_id" type="hidden" value="{{$stop->id}}">
+                                                            <button type="submit" class="btn btn-success">+</button>
+                                                        </form>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -91,11 +124,14 @@
                         </div>
                     </div>
               </div>
+            </div>
+
+            <div class="row">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title text-center">Mapa</h5>
                         <div class="row text-center">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29867.127089797075!2d-103.3240576!3d20.6536704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8428b23a9bbba80d%3A0xdacdb7fd592feb90!2sCentro%20Universitario%20de%20Ciencias%20Exactas%20e%20Ingenier%C3%ADas%20(CUCEI)!5e0!3m2!1ses!2smx!4v1697166252053!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <div id="map"></div>
                         </div>
                     </div>
                 </div>
@@ -103,5 +139,59 @@
 
         </div>
     </section>
+
+    @section('js')
+        <script>
+            var map = L.map('map').setView([{{$ride->placesB->latitude_p}}, {{$ride->placesB->longitude_p}}], 13);
+
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+
+            let marker, circle, zoomed;
+
+            navigator.geolocation.watchPosition(success, error);
+
+            
+
+            function success(position){
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                const accuracy = position.coords.accuracy;
+
+                if(marker){
+                    map.removeLayer(marker);
+                    map.removeLayer(circle);
+                }
+
+                marker = L.marker([latitude, longitude], {title:"Ubicación actual"}).addTo(map);
+                circle = L.circle([latitude, longitude], { radius: accuracy }).addTo(map);
+
+                L.marker([{{$ride->placesB->latitude_p}}, {{$ride->placesB->longitude_p}}], {title:"Punto de partida"}).addTo(map);
+                L.marker([{{$ride->placesF->latitude_p}}, {{$ride->placesF->longitude_p}}], {title:"Punto de fin"}).addTo(map);
+
+                @foreach($ride->stops as $stop)
+                    L.marker([{{$stop->latitude_p}}, {{$stop->longitude_p}}], {title:"Parada"}).addTo(map);
+                @endforeach
+
+                if(!zoomed){
+                    zoomed = map.fitBounds(circle.getBounds());
+                }
+
+                map.setView([latitude, longitude]);
+            }
+
+            function error(error){
+                if(error.code === 1){
+                    alert('Nmms da permiso');
+                }
+                else{
+                    //alert('No se pudo mijo');
+                }
+            }
+
+        </script>
+    @endsection
 
 </x-menu>

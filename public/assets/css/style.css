@@ -216,6 +216,11 @@ h6 {
   border-color: #d3d3d4;
 }
 
+/*map*/
+#map { 
+  height: 500px; 
+}
+
 /* Card */
 .card {
   margin-bottom: 30px;
