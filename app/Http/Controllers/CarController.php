@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\User;
 use App\Models\Color;
 use App\Models\Marca;
 use App\Models\Picture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -59,12 +61,18 @@ class CarController extends Controller
         return redirect()->route('car.createp', $car);
     }
 
+    public function approve()
+    {
+        return view('cars.approveCars');
+    }
+
+
     /**
      * Display the specified resource.
      */
     public function show(Car $car)
     {
-        //
+
     }
 
     /**
@@ -120,11 +128,44 @@ class CarController extends Controller
             $index++;
         }
         
-        //dd($index);
-        
         Car::where('id', $car->id)
         ->update(['picset_c' => true]);
 
+        if(Auth::user()->type_u != 3 or Auth::user()->type_u != 7){
+            $user = User::where('id', Auth::user()->id)->first();
+            $user->waiting_u = true;
+            $user->save();
+        }
+
         return redirect()->route('car.index');
+    }
+
+    public function approveC(Car $car){
+        $pictures = Picture::where('cars_id', $car->id)
+        ->whereIn('type_p', ['1', '2'])
+        ->get();
+
+        foreach($pictures as $picture){
+            Storage::delete($picture->hash);
+            $picture->delete();
+        }
+
+        $car->approved_c = true;
+        $car->save();
+
+        return redirect()->route('car.approve');
+    }
+
+    public function denyC(Car $car){
+        $pictures = Picture::where('cars_id', $car->id)
+        ->get();
+
+        foreach($pictures as $picture){
+            Storage::delete($picture->hash);
+        }
+
+        $car->delete();
+
+        return redirect()->route('car.approve');
     }
 }
