@@ -135,4 +135,20 @@ class RideController extends Controller
         //$ride->stops()->sync($request->place_id);
         return redirect()->route('ride.show', $ride);
     }
+
+    public function approveStop(Ride $ride, Place $place, User $user){
+        //dd($ride);
+        $ride->users()->detach($user->id);
+        $ride->users()->attach($user->id, ['places_id'=>$place->id, 'approved_u'=>true]);
+        //CORREO
+        return redirect()->route('ride.show', $ride);
+    }
+
+    public function denyStop(Ride $ride, User $user){
+        //dd($ride);
+        $ride->users()->detach($user->id);
+        //CORREO
+        return redirect()->route('ride.show', $ride);
+    }
+
 }

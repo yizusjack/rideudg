@@ -42,8 +42,14 @@
                                                     @foreach ($ride->users as $rideU)
                                                         @if ($rideU->pivot->places_id == $ride->places_id)
                                                             <p>{{$rideU->name}}
-                                                                <button class="btn btn-sm btn-success">✔</button>
-                                                                <button class="btn btn-sm btn-danger">✘</button>
+                                                                @if ($rideU->pivot->approved_u != true)
+                                                                    <a href="{{route('ride.approveStop', ['ride'=>$ride, 'place'=>$ride->placesB, 'user'=>$rideU])}}">
+                                                                        <button class="btn btn-sm btn-success">✔</button>
+                                                                    </a>
+                                                                    <a href="{{route('ride.denyStop', ['ride'=>$ride, 'user'=>$rideU])}}">
+                                                                        <button class="btn btn-sm btn-danger">✘</button>
+                                                                    </a>
+                                                                @endif
                                                             </p>
                                                         @endif
                                                     @endforeach
@@ -71,8 +77,14 @@
                                                     @foreach ($ride->users as $rideU)
                                                         @if ($rideU->pivot->places_id == $ride->destiny_id)
                                                             <p>{{$rideU->name}}
-                                                                <button class="btn btn-sm btn-success">✔</button>
-                                                                <button class="btn btn-sm btn-danger">✘</button>
+                                                                @if ($rideU->pivot->approved_u != true)
+                                                                    <a href="{{route('ride.approveStop', ['ride'=>$ride, 'place'=>$ride->placesF, 'user'=>$rideU])}}">
+                                                                        <button class="btn btn-sm btn-success">✔</button>
+                                                                    </a>
+                                                                    <a href="{{route('ride.denyStop', ['ride'=>$ride, 'user'=>$rideU])}}">
+                                                                        <button class="btn btn-sm btn-danger">✘</button>
+                                                                    </a>
+                                                                @endif
                                                             </p>
                                                         @endif
                                                     @endforeach
@@ -103,8 +115,14 @@
                                                         @foreach ($ride->users as $rideU)
                                                             @if ($rideU->pivot->places_id == $stop->id)
                                                                 <p>{{$rideU->name}}
-                                                                    <button class="btn btn-sm btn-success">✔</button>
-                                                                    <button class="btn btn-sm btn-danger">✘</button>
+                                                                    @if ($rideU->pivot->approved_u != true)
+                                                                        <a href="{{route('ride.approveStop', ['ride'=>$ride, 'place'=>$stop, 'user'=>$rideU])}}">
+                                                                            <button class="btn btn-sm btn-success">✔</button>
+                                                                        </a>
+                                                                        <a href="{{route('ride.denyStop', ['ride'=>$ride, 'user'=>$rideU])}}">
+                                                                            <button class="btn btn-sm btn-danger">✘</button>
+                                                                        </a>
+                                                                    @endif
                                                                 </p>
                                                             @endif
                                                         @endforeach

@@ -131,7 +131,7 @@ class CarController extends Controller
         Car::where('id', $car->id)
         ->update(['picset_c' => true]);
 
-        if(Auth::user()->type_u != 3 or Auth::user()->type_u != 7){
+        if(Auth::user()->type_u != 3 and Auth::user()->type_u != 7){
             $user = User::where('id', Auth::user()->id)->first();
             $user->waiting_u = true;
             $user->save();
@@ -145,10 +145,22 @@ class CarController extends Controller
         ->whereIn('type_p', ['1', '2'])
         ->get();
 
+        
+        
+        if($car->users->type_u == 1 or $car->users->type_u == 5){
+            $val = $car->users->type_u+2;
+            //dd($val);
+            $user = User::where('id', $car->users_id)->first();
+            $user->type_u = strval($val);
+            $user->waiting_u = false;
+            $user->save();
+        }
+        
         foreach($pictures as $picture){
             Storage::delete($picture->hash);
             $picture->delete();
         }
+
 
         $car->approved_c = true;
         $car->save();

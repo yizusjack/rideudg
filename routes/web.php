@@ -86,6 +86,16 @@ Route::post('ride/{ride}/requestStop',
     ->name('ride.requestStop')
     ->middleware('auth');
 
+Route::get('ride/{ride}/approveStop/{place}/{user}', 
+    [RideController::class, 'approveStop'])
+    ->name('ride.approveStop')
+    ->middleware('auth');
+
+Route::get('ride/{ride}/denyStop/{user}', 
+    [RideController::class, 'denyStop'])
+    ->name('ride.denyStop')
+    ->middleware('auth');
+
 //Users
 Route::get('user',
     [UserController::class, 'index'])
