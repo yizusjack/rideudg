@@ -284,10 +284,38 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="{{route('car.create')}}">
           <i class="bx bxs-car"></i>
-          <span>Quiero ser conductor</span>
+          @if(Auth::user()->type_u == 1 or Auth::user()->type_u == 5)
+            <span>Quiero ser conductor</span>
+          @else
+            <span>Agregar carro</span>
+          @endif
         </a>
       </li>
 
+      @if (Auth::user()->type_u >=5)
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{route('car.approve')}}">
+            <i class="bx bxs-check-circle"></i>
+            <span>Aprobar carros</span>
+          </a>
+        </li>
+      @endif
+
+      @if(Auth::user()->type_u == 1 or Auth::user()->type_u == 5)
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{route('ride.ridesImIn')}}">
+            <i class="bx bx-list-ol"></i>
+            <span>Mis viajes</span>
+          </a>
+        </li>
+      @else
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{route('ride.myRides')}}">
+            <i class="bx bx-list-ol"></i>
+            <span>Administrar viajes</span>
+          </a>
+        </li>
+      @endif
       {{--<li class="nav-item">
         <a class="nav-link collapsed" href="pages-register.html">
           <i class="bi bi-card-list"></i>

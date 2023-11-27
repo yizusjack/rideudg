@@ -22,6 +22,7 @@ class PlaceController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Place::class);
         return view('places.createPlace');
     }
 
@@ -30,6 +31,7 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Place::class);
         $request->validate([
             'name_p' => ['required', 'max:255'],
             'address_p' => ['required', 'max:255'],
@@ -54,6 +56,7 @@ class PlaceController extends Controller
      */
     public function edit(Place $place)
     {
+        $this->authorize('update', $place);
         return view('places.editPlace', compact('place'));
     }
 
@@ -62,6 +65,7 @@ class PlaceController extends Controller
      */
     public function update(Request $request, Place $place)
     {
+        $this->authorize('update', $place);
         $request->validate([
             'name_p' => ['required', 'max:255'],
             'address_p' => ['required', 'max:255'],
@@ -80,6 +84,7 @@ class PlaceController extends Controller
      */
     public function destroy(Place $place)
     {
+        $this->authorize('delete', $place);
         $place->delete();
         return redirect('place');
     }

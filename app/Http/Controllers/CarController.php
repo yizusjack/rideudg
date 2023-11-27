@@ -19,7 +19,10 @@ class CarController extends Controller
      */
     public function index()
     {
-        $cars = Car::with(['users', 'marcas', 'colors'])->get();
+        $this->authorize('viewAny', Car::class);
+        $cars = Car::with(['users', 'marcas', 'colors'])
+        ->where('approved_c', true)
+        ->get();
 
         return view('cars.carIndex', compact('cars'));
     }
@@ -63,6 +66,7 @@ class CarController extends Controller
 
     public function approve()
     {
+        $this->authorize('approveCar', Car::class);
         return view('cars.approveCars');
     }
 
@@ -101,12 +105,14 @@ class CarController extends Controller
 
     public function createP(Car $car)
     {
+        $this->authorize('addPics', $car);
         return view('cars.insertCarPics', compact('car'));
     }
 
     public function storeP(Request $request, Car $car)
     {
         //dd($request);
+        $this->authorize('addPics', $car);
         $request->validate([
             'picture_f' => ['required', 'image'],
             'picture_b' => ['required', 'image',],
@@ -137,10 +143,11 @@ class CarController extends Controller
             $user->save();
         }
 
-        return redirect()->route('car.index');
+        return redirect()->route('ride.index');
     }
 
     public function approveC(Car $car){
+        $this->authorize('approveCar', Car::class);
         $pictures = Picture::where('cars_id', $car->id)
         ->whereIn('type_p', ['1', '2'])
         ->get();
@@ -169,6 +176,7 @@ class CarController extends Controller
     }
 
     public function denyC(Car $car){
+        $this->authorize('approveCar', Car::class);
         $pictures = Picture::where('cars_id', $car->id)
         ->get();
 

@@ -66,7 +66,7 @@ Route::post('car/{car}/denyC',
 Route::resource('ride', RideController::class)
 ->middleware('auth');
 
-Route::get('ride/{user}/myRides',
+Route::get('myRides',
     [RideController::class, 'myRides'])
     ->name('ride.myRides')
     ->middleware('auth');

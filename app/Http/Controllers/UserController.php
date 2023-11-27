@@ -12,12 +12,14 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', User::class);
         $users = User::all();
 
         return view('users.userIndex', compact('users'));
     }
 
     public function addD(User $user){
+        $this->authorize('viewAny', User::class);
         if($user->type_u != 7 and $user->type_u != 3){
             $userC = User::where('id', $user->id)->first();
             $new = strval($user->type_u + 2);
@@ -30,6 +32,7 @@ class UserController extends Controller
     }
 
     public function quitD(User $user){
+        $this->authorize('viewAny', User::class);
         if($user->type_u == 3 or $user->type_u == 7){
             $userC = User::where('id', $user->id)->first();
             $new = strval($user->type_u - 2);
@@ -41,6 +44,7 @@ class UserController extends Controller
     }
 
     public function addA(User $user){
+        $this->authorize('viewAny', User::class);
         if($user->type_u < 5){
             $userC = User::where('id', $user->id)->first();
             $new = strval($user->type_u + 4);
@@ -52,6 +56,7 @@ class UserController extends Controller
     }
 
     public function quitA(User $user){
+        $this->authorize('viewAny', User::class);
         if($user->type_u >=5){
             $userC = User::where('id', $user->id)->first();
             $new = strval($user->type_u - 4);

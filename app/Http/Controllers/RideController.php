@@ -32,6 +32,7 @@ class RideController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Ride::class);
         $places = Place::all();
         $cars = Car::where('users_id', Auth::user()->id)->get();
         return view('rides.createRide', compact('places', 'cars'));
@@ -42,7 +43,7 @@ class RideController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
+        $this->authorize('create', Ride::class);
         $request->validate([
             'date_t' => ['required', 'date',],
             'hour_t' => ['required', 'date_format:H:i',],
@@ -92,6 +93,7 @@ class RideController extends Controller
      */
     public function edit(Ride $ride)
     {
+        $this->authorize('update', $ride);
         $places = Place::all();
         $cars = Car::where('users_id', Auth::user()->id)->get();
         return view('rides.editRide', compact('places', 'cars', 'ride'));
@@ -102,6 +104,7 @@ class RideController extends Controller
      */
     public function update(Request $request, Ride $ride)
     {
+        $this->authorize('update', $ride);
         $request->validate([
             'date_t' => ['required', 'date',],
             'hour_t' => ['required', 'date_format:H:i',],
@@ -122,12 +125,14 @@ class RideController extends Controller
      */
     public function destroy(Ride $ride)
     {
+        $this->authorize('delete', $ride);
         $ride->delete();
         return redirect()->route('ride.myRides', Auth::user()->id);
     }
 
-    public function myRides(User $user){
-        $cars = Car::select('id')->where('users_id', $user->id);
+    public function myRides(){
+        $this->authorize('view', Ride::class);
+        $cars = Car::select('id')->where('users_id', Auth::user()->id);
         $rides = Ride::with(['placesB', 'placesF', 'cars'])
         ->whereIn('cars_id', $cars) //If The car is within the cars array made in the previous instruction
         ->whereDate('date_t', '>=', Carbon::today()->toDateString())
@@ -141,11 +146,13 @@ class RideController extends Controller
     }
 
     public function seeStops(Ride $ride){
+        $this->authorize('update', $ride);
         $places = Place::all();
         return view('rides.addStops', compact('ride', 'places'));
     }
 
     public function manageStops(Request $request, Ride $ride){
+        $this->authorize('update', $ride);
         $ride->stops()->sync($request->place_id);
         return redirect()->route('ride.show', $ride);
     }
@@ -156,7 +163,7 @@ class RideController extends Controller
     }
 
     public function approveStop(Ride $ride, Place $place, User $user){
-        //dd($ride);
+        $this->authorize('update', $ride);
         $taken = DB::table('ride_user')
         ->where('ride_id', $ride->id)
         ->where('approved_u', true)
@@ -171,7 +178,7 @@ class RideController extends Controller
     }
 
     public function denyStop(Ride $ride, User $user){
-        //dd($ride);
+        $this->authorize('update', $ride);
         $ride->users()->detach($user->id);
         $this->sendDenyMail($user, $ride);
         return redirect()->route('ride.show', $ride);
