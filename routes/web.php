@@ -71,6 +71,12 @@ Route::get('ride/{user}/myRides',
     ->name('ride.myRides')
     ->middleware('auth');
 
+Route::get('ridesImIn',
+    [RideController::class, 'ridesImIn'])
+    ->name('ride.ridesImIn')
+    ->middleware('auth');
+
+
 Route::get('ride/{ride}/seeStops',
     [RideController::class, 'seeStops'])
     ->name('ride.seeStops')

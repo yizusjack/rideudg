@@ -36,7 +36,7 @@ class User extends Authenticatable
     }
 
     public function rides(){
-        return $this->belongsToMany(Ride::class);
+        return $this->belongsToMany(Ride::class)->withPivot('places_id', 'approved_u');
     }
 
     /**
