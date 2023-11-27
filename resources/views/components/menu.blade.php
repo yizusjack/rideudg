@@ -316,6 +316,15 @@
           </a>
         </li>
       @endif
+
+      @if (Auth::user()->type_u >=5)
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{route('user.index')}}">
+            <i class="bx bx-user-check"></i>
+            <span>Administrar usuarios</span>
+          </a>
+        </li>
+      @endif
       {{--<li class="nav-item">
         <a class="nav-link collapsed" href="pages-register.html">
           <i class="bi bi-card-list"></i>
